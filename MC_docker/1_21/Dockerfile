@@ -1,0 +1,31 @@
+# 使用 Alpine Linux 作为基础镜像
+FROM alpine:latest
+
+# 设置工作目录
+WORKDIR /server
+
+# 安装 JDK 21 和必要的工具
+RUN apk add --no-cache openjdk21 wget git
+
+# 从提供的 URL 下载服务器核心
+RUN wget https://api.papermc.io/v2/projects/paper/versions/1.21/builds/130/downloads/paper-1.21-130.jar -O server.jar
+
+# 克隆默认配置文件和插件
+RUN git clone https://github.com/Zzzqlzzzzql/MC_server_1.21.git /server-config
+
+# 复制配置文件到正确的位置
+RUN cp -r /server-config/* /server/
+
+# 复制启动脚本到容器
+COPY server-start.sh /server/
+
+# 给启动脚本添加可执行权限
+RUN chmod +x /server/server-start.sh
+
+COPY spigot.yml /server/
+
+# 暴露 Minecraft 服务器端口
+EXPOSE 25535
+
+# 设置容器启动时执行的命令
+CMD ["java", "-Xms2G", "-Xmx2G", "-jar", "server.jar", "nogui"]

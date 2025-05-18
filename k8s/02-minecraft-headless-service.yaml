@@ -1,0 +1,18 @@
+# 用于创建 Kubernetes 中的无头服务，来支持 StatefulSet 的 Pod 之间的直接通信
+# 在 bungeecord 的配置中，我们可以使用这个无头服务来连接到 Minecraft 服务器的 Pod
+apiVersion: v1 # Kubernetes API 的版本
+kind: Service # Kubernetes 资源的类型
+metadata: # 元数据部分
+  name: mc-paper-headless-svc # 与 StatefulSet 中的 serviceName 匹配
+  namespace: minecraft-server # 指定命名空间
+  labels: # 标签部分，用于选择和管理资源
+    app: mc-paper # 匹配 StatefulSet 的标签
+spec:
+  clusterIP: None # 声明为 Headless Service
+  selector: # 选择器，用于匹配 Pod 的标签
+    app: mc-paper # 匹配 StatefulSet 的标签
+  ports:  # 端口列表
+    - name: mc-port # 端口名称，用于服务发现
+      # 当有人访问 mc-paper-headless-svc:25535 时，流量会被转发到拥有 app: mc-paper 标签的 Pod 的25535端口
+      port: 25535 # Minecraft 服务器监听的端口
+      targetPort: 25535 # Pod 内的端口

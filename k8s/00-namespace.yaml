@@ -1,0 +1,5 @@
+# 声明一个用于 Minecraft 服务器的命名空间
+apiVersion: v1 # Kubernetes API 的版本
+kind: Namespace # Kubernetes 资源的类型
+metadata: # 元数据部分
+  name: minecraft-server # 命名空间的名称

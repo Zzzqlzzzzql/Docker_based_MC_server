@@ -1,0 +1,75 @@
+# 用于创建 bungeecord 的 ConfigMap，将配置信息与容器镜像分离
+# 这个 ConfigMap 包含了 BungeeCord 的配置文件 config.yml
+apiVersion: v1 # Kubernetes API 的版本
+kind: ConfigMap # Kubernetes 资源的类型
+metadata: # 元数据部分
+  name: bungeecord-config # ConfigMap 的名称
+  namespace: minecraft-server # 指定命名空间
+data:
+  config.yml: |
+    # 更新后的 BungeeCord config.yml 内容
+    connection_throttle: 4000
+    online_mode: false
+    remote_ping_timeout: 5000
+    groups:
+      md_5:
+      - admin
+    servers:
+      lobby: # 对应 mc-paper-0 Pod
+        motd: '&1Kubernetes Lobby Server'
+        # 地址指向 mc-paper-0 Pod，端口为 PaperMC 实际监听的 25535
+        address: mc-paper-0.mc-paper-headless-svc.minecraft-server.svc.cluster.local:25535
+        restricted: false
+      new: # 对应您计划中的第二个 Minecraft 服务器实例
+        motd: '&1Kubernetes New Server'
+        # 假设您会为这个 'new' 服务器创建一个名为 'mc-new-server' 的 StatefulSet
+        # 和一个名为 'mc-new-server-headless-svc' 的 Headless Service
+        # 并且这个 'new' 服务器实例会在 25565 端口监听
+        address: mc-new-server-0.mc-new-server-headless-svc.minecraft-server.svc.cluster.local:25565
+        restricted: false
+    remote_ping_cache: -1
+    connection_throttle_limit: 3
+    enforce_secure_profile: false
+    listeners:
+    - query_port: 25577
+      motd: '&1Another Bungee server'
+      tab_list: GLOBAL_PING
+      query_enabled: false
+      proxy_protocol: false
+      forced_hosts:
+        pvp.md-5.net: pvp
+      ping_passthrough: false
+      priorities:
+      - lobby # 默认服务器
+      bind_local_address: true
+      host: 0.0.0.0:25577
+      max_players: 1 # 请根据需要调整
+      tab_size: 60
+      force_default_server: false # 您之前的设置为 false
+    server_connect_timeout: 5000
+    player_limit: -1
+    max_packets_per_second: 4096
+    ip_forward: true # 您将其改为了 true
+    disabled_commands:
+    - disabledcommandhere
+    log_pings: true
+    max_packets_data_per_second: 33554432
+    forge_support: false
+    log_commands: false
+    stats: 9afa1f71-34c4-40e2-b082-f8ed075c6654
+    reject_transfers: false
+    network_compression_threshold: 256
+    permissions:
+      default:
+      - bungeecord.command.server
+      - bungeecord.command.list
+      admin:
+      - bungeecord.command.alert
+      - bungeecord.command.end
+      - bungeecord.command.ip
+      - bungeecord.command.reload
+      - bungeecord.command.kick
+      - bungeecord.command.send
+      - bungeecord.command.find
+    prevent_proxy_connections: false
+    timeout: 30000

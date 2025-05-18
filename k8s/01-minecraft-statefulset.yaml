@@ -1,0 +1,46 @@
+# 用于在 Kubernetes 中创建 Minecraft 服务器的 StatefulSet 
+apiVersion: apps/v1 # Kubernetes API 的版本
+kind: StatefulSet # Kubernetes 资源的类型
+metadata: # 元数据部分
+  name: mc-paper # StatefulSet 的名称
+  namespace: minecraft-server # 指定命名空间
+  labels: # 标签部分，用于选择和管理资源
+    app: mc-paper # 与 Headless Service 的标签匹配
+spec: # 规范部分
+  serviceName: "mc-paper-headless-svc" # 必须匹配 Headless Service 的名称
+  replicas: 1 # 可以根据需要运行多个独立的MC服务器实例，但每个都需要独立配置和BungeeCord指向
+  selector: # 选择器，用于匹配 Pod 的标签
+    matchLabels: # 匹配 Pod 的标签
+      app: mc-paper # 必须与下面的 template.metadata.labels 匹配
+  template: # Pod 模板部分
+    metadata: # 元数据部分
+      labels: # 标签部分，用于选择和管理资源
+        app: mc-paper # 必须与上面的 selector.matchLabels 匹配
+    spec: # Pod 规范部分
+      containers: # 容器列表
+      - name: minecraft-paper-container # 容器的名称
+        image: server:latest # Minecraft 镜像
+        imagePullPolicy: IfNotPresent # 本地有则不拉取
+        ports: # 容器端口列表
+        - containerPort: 25535 # Minecraft 服务器监听的端口
+          name: mc-port # 端口名称，用于服务发现
+        env: # 环境变量列表
+        resources: # 资源请求和限制，根据 JVM 参数调整
+          requests: # 请求的资源
+            memory: "1.5Gi" # 内存请求，略大于 -Xms
+            cpu: "0.5" # CPU 请求
+          limits: 
+            memory: "2Gi"   # 略大于 -Xmx
+            cpu: "1" # CPU 限制
+        volumeMounts: # 挂载卷列表
+        - name: world-data # 对应下面的 volumeClaimTemplates
+          mountPath: /mcserver/world # 挂载路径，Minecraft 服务器的数据目录
+  # 卷声明模板部分
+  volumeClaimTemplates: # StatefulSet 会为每个 Pod 创建一个基于此模板的 PVC
+  - metadata: # 元数据部分
+      name: world-data # 这个名称会与上面的 volumeMounts.name 对应
+    spec: # PVC 规范部分
+      accessModes: [ "ReadWriteOnce" ]
+      resources: # 资源请求部分
+        requests: # 请求的资源
+          storage: 10Gi # 与上面定义的 PVC 大小一致或由模板决定

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bungeecord-proxy
+  namespace: minecraft-server
+  labels:
+    app: bungeecord-proxy
+spec:
+  replicas: 1 # 可以根据需要增加副本数以提高可用性
+  selector:
+    matchLabels:
+      app: bungeecord-proxy
+  template:
+    metadata:
+      labels:
+        app: bungeecord-proxy
+    spec:
+      containers:
+      - name: bungeecord-container
+        image: bungeecord:latest # 替换为 BungeeCord 镜像
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 25577 # BungeeCord 监听端口
+          name: bungee-port
+        resources:
+          requests: # 根据 Dockerfile CMD 中的 -Xms128M
+            memory: "200Mi" # 略大于 -Xms
+            cpu: "0.1"
+          limits:   # 根据 Dockerfile CMD 中的 -Xmx512M
+            memory: "700Mi" # 略大于 -Xmx
+            cpu: "0.5"
+        volumeMounts:
+        - name: bungeecord-config-volume
+          mountPath: /bungeecord/config.yml # BungeeCord读取配置文件的路径
+          subPath: config.yml # 从ConfigMap中挂载特定的键
+      volumes:
+      - name: bungeecord-config-volume
+        configMap:
+          name: bungeecord-config # 引用上面创建的 ConfigMap
+          items:
+          - key: config.yml
+            path: config.yml # 在 Pod 内的目标文件名

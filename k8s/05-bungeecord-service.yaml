@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bungeecord-proxy-external
+  namespace: minecraft-server
+  labels:
+    app: bungeecord-proxy
+spec:
+  type: LoadBalancer # 在Docker Desktop上, 这会使服务在 localhost:<port> 上可用
+  selector:
+    app: bungeecord-proxy # 匹配 BungeeCord Deployment 的标签
+  ports:
+  - name: bungee-port
+    protocol: TCP
+    port: 25577 # 外部玩家连接的端口
+    targetPort: 25577 # BungeeCord 容器内监听的端口

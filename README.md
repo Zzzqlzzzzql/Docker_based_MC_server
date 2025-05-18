@@ -23,43 +23,42 @@
 
 ## 仓库结构
 
-docker_based_mc_server/
-├── MC_docker/                      # Docker 相关配置和 Dockerfile
-│   ├── 1_21/                       # PaperMC 1.21 服务器的 Docker 配置示例
+.
+├── MC_docker/
+│   ├── 1_21/
 │   │   ├── Dockerfile
 │   │   ├── server-start.sh
 │   │   ├── spigot.yml
-│   │   └── README.md               # PaperMC 1.21 Docker 部署指南
-│   ├── 1_21base/                   # 基础 PaperMC 1.21 镜像配置示例
+│   │   └── README.md
+│   ├── 1_21base/
 │   │   ├── Dockerfile
 │   │   ├── server.properties
 │   │   ├── spigot.yml
-│   │   └── README.md               # 基础 PaperMC Docker 镜像构建指南
-│   ├── bungeecord/                 # BungeeCord 代理服务器的 Docker 配置示例
+│   │   └── README.md
+│   ├── bungeecord/
 │   │   ├── Dockerfile
 │   │   ├── config.yml
-│   │   └── README.md               # BungeeCord Docker 部署指南
+│   │   └── README.md
 │   ├── cluster/
-│   │   └── info.md                 # 关于使用 Docker Swarm 或 K8s 管理集群的说明
+│   │   └── info.md
 │   └── optimized/
-│       └── info.md                 # 关于服务器性能优化的说明
-├── k8s/                            # Kubernetes 相关配置文件
+│       └── info.md
+├── k8s/
 │   ├── 00-namespace.yaml
-│   ├── 01-minecraft-statefulset.yaml # "lobby" 服务器 (mc-paper) 的 StatefulSet
+│   ├── 01-minecraft-statefulset.yaml
 │   ├── 02-minecraft-headless-service.yaml
 │   ├── 03-bungeecord-configmap.yaml
 │   ├── 04-bungeecord-deployment.yaml
 │   ├── 05-bungeecord-service.yaml
-│   ├── 06-mc-new-server-statefulset.yaml # "new" 服务器的 StatefulSet
+│   ├── 06-mc-new-server-statefulset.yaml
 │   ├── 07-mc-new-headless-service.yaml
-│   └── README.md                     # Kubernetes 部署详细指南 (您应将我之前为您撰写的K8s README放在这里)
+│   └── README.md
 ├── MCSmanager/
-│   └── info.md                     # 关于 MCSManager 的信息和功能介绍
+│   └── info.md
 ├── embedded/
-│   └── info.md                     # 关于嵌入式部署的思路
-└── 总结.md                         # 项目不同部署方案的技术节点总结 (您提供的文件)
-└── README.md                       # 本主 README 文件
-
+│   └── info.md
+├── 总结.md
+└── README.md
 
 ## 部署选项与指南
 

@@ -46,13 +46,13 @@
 │       └── info.md
 ├── k8s/
 │   ├── 00-namespace.yaml
-│   ├── 01-minecraft-statefulset.yaml
-│   ├── 02-minecraft-headless-service.yaml
-│   ├── 03-bungeecord-configmap.yaml
-│   ├── 04-bungeecord-deployment.yaml
-│   ├── 05-bungeecord-service.yaml
-│   ├── 06-mc-new-server-statefulset.yaml
-│   ├── 07-mc-new-headless-service.yaml
+│   ├── 01-mc-server-statefulset.yaml
+│   ├── 02-mc-server-headless-service.yaml
+│   ├── 03-mc-new-server-statefulset.yaml
+│   ├── 04-mc-new-headless-service.yaml
+│   ├── 05-bungeecord-configmap.yaml
+│   ├── 06-bungeecord-deployment.yaml
+│   ├── 07-bungeecord-service.yaml
 │   └── README.md
 ├── MCSmanager/
 │   └── info.md
@@ -82,7 +82,7 @@
 如果您希望部署一个可伸缩、高可用的 Minecraft 服务器集群（包含 BungeeCord 代理和多个后端 PaperMC 服务器），请参考 `k8s/` 目录下的配置和指南。
 
 * **详细部署步骤、配置说明和管理命令**:
-    * 请参考: [`k8s/README.md`](k8s/README.md) (这个文件应包含我们之前详细讨论和为您生成的 Kubernetes 部署指南)
+    * 请参考: [`k8s/README.md`](k8s/README.md) 
 
 ### 3. 使用 MCSManager 管理面板
 

@@ -1,0 +1,1 @@
+通过docker技术可以将MCserver部署到任意支持docker的嵌入式设备上，详见课程报告

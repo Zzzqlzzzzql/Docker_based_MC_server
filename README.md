@@ -40,8 +40,6 @@
 │   │   ├── Dockerfile
 │   │   ├── config.yml
 │   │   └── README.md
-│   ├── cluster/
-│   │   └── info.md
 │   └── optimized/
 │       └── info.md
 ├── k8s/
@@ -57,7 +55,6 @@
 ├── MCSmanager/
 │   └── info.md
 ├── embedded/
-│   └── info.md
 ├── 总结.md
 └── README.md
 ```

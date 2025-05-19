@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: bungeecord-container
-        image: bungeecord:latest # 替换为 BungeeCord 镜像
+        image: bungeecord:latest # BungeeCord 镜像
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 25577 # BungeeCord 监听端口

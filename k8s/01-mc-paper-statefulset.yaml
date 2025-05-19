@@ -2,27 +2,27 @@
 apiVersion: apps/v1 # Kubernetes API 的版本
 kind: StatefulSet # Kubernetes 资源的类型
 metadata: # 元数据部分
-  name: mc-new-server # StatefulSet 的名称
+  name: mc-paper # StatefulSet 的名称
   namespace: minecraft-server # 指定命名空间
   labels: # 标签部分，用于选择和管理资源
-    app: mc-new-server # 与 Headless Service 的标签匹配
+    app: mc-paper # 与 Headless Service 的标签匹配
 spec: # 规范部分
-  serviceName: "mc-new-server-headless-svc" # 必须匹配 Headless Service 的名称
+  serviceName: "mc-paper-headless-svc" # 必须匹配 Headless Service 的名称
   replicas: 1 # 可以根据需要运行多个独立的MC服务器实例，但每个都需要独立配置和BungeeCord指向
   selector: # 选择器，用于匹配 Pod 的标签
     matchLabels: # 匹配 Pod 的标签
-      app: mc-new-server # 必须与下面的 template.metadata.labels 匹配
+      app: mc-paper # 必须与下面的 template.metadata.labels 匹配
   template: # Pod 模板部分
     metadata: # 元数据部分
       labels: # 标签部分，用于选择和管理资源
-        app: mc-new-server # 必须与上面的 selector.matchLabels 匹配
+        app: mc-paper # 与上面的 selector.matchLabels 匹配
     spec: # Pod 规范部分
       containers: # 容器列表
       - name: minecraft-paper-container # 容器的名称
-        image: new-server:latest # Minecraft 镜像
+        image: server:latest # Minecraft 镜像
         imagePullPolicy: IfNotPresent # 本地有则不拉取
         ports: # 容器端口列表
-        - containerPort: 25565 # Minecraft 服务器监听的端口
+        - containerPort: 25535 # Minecraft 服务器监听的端口
           name: mc-port # 端口名称，用于服务发现
         env: # 环境变量列表
         resources: # 资源请求和限制，根据 JVM 参数调整

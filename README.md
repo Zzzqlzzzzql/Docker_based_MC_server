@@ -55,6 +55,7 @@
 ├── MCSmanager/
 │   └── info.md
 ├── embedded/
+│   └── info.md
 ├── 总结.md
 └── README.md
 ```
